@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.min.css">
+    <link rel="stylesheet" href="diag-polyfill.css">
     <link rel="stylesheet" href="styles.css">
     <style>
     #view-source {
@@ -50,11 +51,11 @@
           </span>
           <!-- Add spacer, to align navigation to the right in desktop -->
           <div class="android-header-spacer mdl-layout-spacer"></div>
-          <div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+          <div id="expandable-holder-div" class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
             <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
               <i class="material-icons">search</i>
             </label>
-            <div class="mdl-textfield__expandable-holder">
+            <div id="expandable-holder-div2" class="mdl-textfield__expandable-holder">
               <input class="mdl-textfield__input" type="text" id="search-field">
             </div>
           </div>
@@ -103,6 +104,18 @@
         </nav>
       </div>
 
+      <dialog class="mdl-dialog">
+        <div class="mdl-dialog__content">
+          <p>
+            Allow this site to collect usage data to improve your experience?
+          </p>
+        </div>
+        <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
+          <button type="button" class="mdl-button">Agree</button>
+          <button type="button" class="mdl-button close">Disagree</button>
+        </div>
+      </dialog>
+
       <main class="mdl-layout__content">
           <div id="filter-chips">
           </div>
@@ -124,6 +137,8 @@
     </div>
     <!-- <a href="https://github.com/google/material-design-lite/blob/mdl-1.x/templates/android-dot-com/" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">View Source</a> -->
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="diag-polyfill.js"></script>
     <script src="main.js"></script>
   </body>
 </html>

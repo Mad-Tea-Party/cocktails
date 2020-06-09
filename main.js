@@ -1,3 +1,4 @@
+/* jshint esversion: 6 */
 myIngredients = [
   22,
   1,
@@ -191,11 +192,15 @@ filterManager.isFilterOn = false;
 filterManager.isFilterMakeable = false;
 filterManager.filterCocktails = (id) => {
   let isShowCocktail = true;
+  if (filterManager.isFilterSearch && isShowCocktail) {
+    isShowCocktail = filterManager.filterSearch(id);
+  }
   if (filterManager.isFilterMakeable && isShowCocktail) {
     isShowCocktail = filterManager.filterIfMakeable(id);
   }
+  // if (isShowCocktail) console.log(getCocktailFromId(id));
   return isShowCocktail;
-}
+};
 filterManager.toggleFilterIfMakeable = (source) => {
   let $filterListMakeable = document.getElementById("filter-list-makeable");
   if (source == 'menu') {
@@ -210,11 +215,39 @@ filterManager.toggleFilterIfMakeable = (source) => {
   filterManager.checkIfAnyFilters();
   updateCocktailGrid();
 };
+filterManager.filterSearch = (id) => {
+    for (var i = 0; i < filterManager.searchResults.length; i++) {
+      if (filterManager.searchResults[i] == id) {
+        return true;
+      }
+    }
+    return false;
+};
+$('#search-field').on('input', function () {
+  filterManager.searchString = $('#search-field').val();
+  filterManager.isFilterSearch = (filterManager.searchString.length > 0) ? true : false;
+  filterManager.searchResults = filterManager.doSearch(filterManager.searchString);
+
+  filterManager.checkIfAnyFilters();
+  updateCocktailGrid();
+});
+filterManager.removeSearchFilter = () => {
+  $('#search-field').val('');
+  $('#expandable-holder-div').removeClass('is-dirty');
+  filterManager.isFilterSearch = false;
+  filterManager.checkIfAnyFilters();
+  updateCocktailGrid();
+};
 filterManager.checkIfAnyFilters = () => {
   let isAnyFilter = false;
   let $filterChips = document.getElementById("filter-chips");
   $filterChips.innerHTML = '';
   $filterChips.style.display = "none";
+
+  if (filterManager.isFilterSearch) {
+    $filterChips.innerHTML += filterManager.addFilterChip(`"${filterManager.searchString}"`,'filter-chip-makeable',"filterManager.removeSearchFilter()");
+    isAnyFilter = true;
+  }
 
   if (filterManager.isFilterMakeable) {
     $filterChips.innerHTML += filterManager.addFilterChip('Makeable Drinks','filter-chip-makeable',"filterManager.toggleFilterIfMakeable('chip')");
@@ -223,20 +256,27 @@ filterManager.checkIfAnyFilters = () => {
 
   if (isAnyFilter) $filterChips.style.display = "block";
   filterManager.isFilterOn = isAnyFilter;
-
-
 };
 filterManager.filterIfMakeable = (id) => {
   var isIngredientAvailable = false;
   for (var i = 0; i < cocktailList.length; i++) {
     if (cocktailList[i].id == id) {
       for (var j = 0; j < cocktailList[i].ingredients.length; j++) {
-        isIngredientAvailable = checkIngredientAvailable(cocktailList[i].ingredients[j])
+        isIngredientAvailable = checkIngredientAvailable(cocktailList[i].ingredients[j]);
         if (isIngredientAvailable == 0 && !getIngredient(cocktailList[i].ingredients[j]).extra) return false;
       }
       return true;
     }
   }
+};
+filterManager.doSearch = (searchString) => {
+  results = [];
+  for (var i = 0; i < cocktailList.length; i++) {
+    if (cocktailList[i].name.toUpperCase().indexOf(searchString.toUpperCase()) !== -1) {
+      results.push(cocktailList[i].id);
+    }
+  }
+  return results;
 };
 filterManager.addFilterChip = (nameString, id, func) => {
   return `
@@ -245,6 +285,28 @@ filterManager.addFilterChip = (nameString, id, func) => {
       <button id="${id}" type="button" class="mdl-chip__action" onclick="${func}"><i class="material-icons">cancel</i></button>
     </span>`;
 };
+
+function getCocktailFromId(id) {
+  for (var i = 0; i < cocktailList.length; i++) {
+    if (cocktailList[i].id == id) {
+      return cocktailList[i];
+    }
+  }
+  console.warn('Cocktail Not Found!');
+  return;
+}
+
+let dialog = document.querySelector('dialog');
+// var showModalButton = document.querySelector('.show-modal');
+if (! dialog.showModal) {
+  dialogPolyfill.registerDialog(dialog);
+}
+// showModalButton.addEventListener('click', function() {
+//   dialog.showModal();
+// });
+dialog.querySelector('.close').addEventListener('click', function() {
+  dialog.close();
+});
 
 function getIngredient(id) {
   for (var i = 0; i < ingredientList.length; i++) {
@@ -284,7 +346,6 @@ function getIngredientStdChip(ingredientId) {
   }
   console.warn(`Ingredient Doesn't Exist`);
 }
-
 function toggleIngredient(ingredientId) {
   $cocktailIngredientChip = document.getElementById(`ig-chip-${ingredientId.toString()}`);
   var snackbarContainer = document.querySelector('#demo-toast-example');
@@ -307,7 +368,6 @@ function toggleIngredient(ingredientId) {
   snackbarContainer.MaterialSnackbar.showSnackbar(data);
   return;
 }
-
 function getIngredientBtnChip(ingredientId) {
   var ingredientString = getIngredient(ingredientId).name;
   if (typeof ingredientString != 'undefined') {
@@ -373,7 +433,7 @@ function updateCocktailGrid() {
   $cocktailGrid = document.getElementById("cocktail-grid");
   $cocktailGrid.innerHTML = '';
   for (var i = 0; i < cocktailList.length; i++) {
-    if (filterManager.filterCocktails(i)) {
+    if (filterManager.filterCocktails(cocktailList[i].id)) {
       $cocktailGrid.innerHTML +=
       `<div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
       <div class="mdl-card__media">

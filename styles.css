@@ -498,9 +498,9 @@ a img{
     width: calc(100% - 48px);
   }
 
-  .android-search-box .mdl-textfield__expandable-holder {
+  /* .android-search-box .mdl-textfield__expandable-holder {
     width: 100%;
-  }
+  } */
 
   .android-be-together-section {
     height: 350px;
