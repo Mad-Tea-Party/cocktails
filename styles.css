@@ -109,7 +109,7 @@ a img{
 
   .android-search-box.is-focused + .android-navigation-container {
     opacity: 0;
-    width: 100px;
+    width: 0px;
   }
 
 
@@ -584,15 +584,23 @@ a img{
   padding: 16px;
 }
 
+#modal-footer {
+  bottom: 0px;
+  position: absolute;
+  right: 0px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+}
+
 .mdl-dialog {
   width: 80%;
-  max-height: 80%;
+  height: 80%;
   overflow: hidden;
 }
 
 .mdl-dialog__content {
-  overflow: scroll;
-  height: 60vh;
+  height: 75%;
+  overflow: hidden;
 }
 
 .cocktail-img {
