@@ -600,7 +600,7 @@ a img{
 
 .mdl-dialog__content {
   height: 75%;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .cocktail-img {
