@@ -590,6 +590,11 @@ a img{
   overflow: hidden;
 }
 
+.mdl-dialog__content {
+  overflow: scroll;
+  height: 60vh;
+}
+
 .cocktail-img {
   height: 300px;
   width: 100%;
