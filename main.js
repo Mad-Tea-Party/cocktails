@@ -296,17 +296,29 @@ function getCocktailFromId(id) {
   return;
 }
 
-let dialog = document.querySelector('dialog');
-// var showModalButton = document.querySelector('.show-modal');
-if (! dialog.showModal) {
-  dialogPolyfill.registerDialog(dialog);
-}
-// showModalButton.addEventListener('click', function() {
-//   dialog.showModal();
-// });
-dialog.querySelector('.close').addEventListener('click', function() {
-  dialog.close();
-});
+var modalManager = {};
+modalManager.init = () => {
+  modalManager.dialogObj = document.querySelector('dialog');
+  // var showModalButton = document.querySelector('.show-modal');
+  if (! modalManager.dialogObj.showModal) {
+    dialogPolyfill.registerDialog(modalManager.dialogObj);
+  }
+  modalManager.dialogObj.querySelector('.close').addEventListener('click', function() {
+    modalManager.dialogObj.close();
+  });
+};
+modalManager.openSettings = () => {
+  modalManager.dialogObj.showModal();
+};
+modalManager.openMyBar = () => {
+  modalManager.dialogObj.showModal();
+};
+modalManager.openByIngredients = () => {
+  updateIngredientChips();
+  modalManager.dialogObj.showModal();
+};
+modalManager.init();
+
 
 function getIngredient(id) {
   for (var i = 0; i < ingredientList.length; i++) {
@@ -417,13 +429,13 @@ function checkIngredientAvailable(id) {
 // updateIngredientChips();
 function updateIngredientChips() {
   // Only Show Chips if Filtering is on
-  if (filterManager.isFilterOn) {
-    $cocktailIngredientChips = document.getElementById("cocktail-ingredients-chips");
+  // if (filterManager.isFilterOn) {
+    $cocktailIngredientChips = document.getElementById("modal-body");
     $cocktailIngredientChips.innerHTML = '';
     for (var i = 0; i < ingredientList.length; i++) {
       $cocktailIngredientChips.innerHTML += getIngredientBtnChip(ingredientList[i].id);
     }
-  }
+  // }
 }
 
 filterManager.checkIfAnyFilters();
@@ -443,7 +455,7 @@ function updateCocktailGrid() {
       <h2 class="mdl-card__title-text">${cocktailList[i].name}</h2>
       </div>
       <div class="mdl-card__supporting-text">
-      ${getCocktailIngredientsString(i)}
+      ${getCocktailIngredientsString(cocktailList[i].id)}
       </div>
       <div class="mdl-card__actions mdl-card--border">
       <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="${cocktailList[i].url}">Read more</a>

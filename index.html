@@ -65,10 +65,10 @@
               <button id="btn-filter" class="nav-button mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-typography--text-uppercase" href="">
                 <i class="material-icons">filter_list</i>
               </button>
-              <a class="nav-button mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-typography--text-uppercase" href="">
+              <a class="nav-button mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-typography--text-uppercase" href="#" onclick="modalManager.openMyBar();">
                 <i class="material-icons">local_drink</i>
               </a>
-              <a class="nav-button mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-typography--text-uppercase" href="">
+              <a class="nav-button mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-typography--text-uppercase" href="#" onclick="modalManager.openSettings();">
                 <i class="material-icons">settings</i>
               </a>
             </nav>
@@ -79,7 +79,7 @@
       <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect"
           for="btn-filter">
         <li id="filter-list-makeable" class="mdl-menu__item" onclick="filterManager.toggleFilterIfMakeable('menu');">Makeable From Bar</li>
-        <li class="mdl-menu__item">By Ingredient...</li>
+        <li class="mdl-menu__item" onclick="modalManager.openByIngredients();">By Ingredient...</li>
         <li disabled class="mdl-menu__item">Disabled Action</li>
         <li class="mdl-menu__item">Yet Another Action</li>
       </ul>
@@ -105,14 +105,26 @@
       </div>
 
       <dialog class="mdl-dialog">
-        <div class="mdl-dialog__content">
+        <div id="modal-body" class="mdl-dialog__content">
           <p>
-            Allow this site to collect usage data to improve your experience?
+            Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum.
+            Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum.
+            Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum.
+          </p>
+          <p>
+            Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum.
+            Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum.
+            Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum.
+          </p>
+          <p>
+            Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum.
+            Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum.
+            Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum. Lorem Ipsum.
           </p>
         </div>
-        <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
-          <button type="button" class="mdl-button">Agree</button>
-          <button type="button" class="mdl-button close">Disagree</button>
+        <div id="modal-footer" class="mdl-dialog__actions mdl-dialog__actions--full-width">
+          <!-- <button type="button" class="mdl-button">Agree</button> -->
+          <button type="button" class="mdl-button close">Close</button>
         </div>
       </dialog>
 
